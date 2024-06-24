@@ -73,19 +73,40 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
     });
   }
 
-  late final _$_HomeViewModelBaseActionController =
-      ActionController(name: '_HomeViewModelBase', context: context);
+  late final _$countAtom =
+      Atom(name: '_HomeViewModelBase.count', context: context);
 
   @override
-  void timerStart() {
-    final _$actionInfo = _$_HomeViewModelBaseActionController.startAction(
-        name: '_HomeViewModelBase.timerStart');
-    try {
-      return super.timerStart();
-    } finally {
-      _$_HomeViewModelBaseActionController.endAction(_$actionInfo);
-    }
+  int get count {
+    _$countAtom.reportRead();
+    return super.count;
   }
+
+  @override
+  set count(int value) {
+    _$countAtom.reportWrite(value, super.count, () {
+      super.count = value;
+    });
+  }
+
+  late final _$pomodorosAtom =
+      Atom(name: '_HomeViewModelBase.pomodoros', context: context);
+
+  @override
+  int get pomodoros {
+    _$pomodorosAtom.reportRead();
+    return super.pomodoros;
+  }
+
+  @override
+  set pomodoros(int value) {
+    _$pomodorosAtom.reportWrite(value, super.pomodoros, () {
+      super.pomodoros = value;
+    });
+  }
+
+  late final _$_HomeViewModelBaseActionController =
+      ActionController(name: '_HomeViewModelBase', context: context);
 
   @override
   void _tick(Timer timer) {
@@ -99,11 +120,11 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
   }
 
   @override
-  void timerStop() {
+  void timerStart() {
     final _$actionInfo = _$_HomeViewModelBaseActionController.startAction(
-        name: '_HomeViewModelBase.timerStop');
+        name: '_HomeViewModelBase.timerStart');
     try {
-      return super.timerStop();
+      return super.timerStart();
     } finally {
       _$_HomeViewModelBaseActionController.endAction(_$actionInfo);
     }
@@ -132,6 +153,17 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
   }
 
   @override
+  void timerStop() {
+    final _$actionInfo = _$_HomeViewModelBaseActionController.startAction(
+        name: '_HomeViewModelBase.timerStop');
+    try {
+      return super.timerStop();
+    } finally {
+      _$_HomeViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetTimer() {
     final _$actionInfo = _$_HomeViewModelBaseActionController.startAction(
         name: '_HomeViewModelBase.resetTimer');
@@ -148,7 +180,9 @@ mixin _$HomeViewModel on _HomeViewModelBase, Store {
 isRunning: ${isRunning},
 selectedIndex: ${selectedIndex},
 selectedMinutes: ${selectedMinutes},
-selectedSeconds: ${selectedSeconds}
+selectedSeconds: ${selectedSeconds},
+count: ${count},
+pomodoros: ${pomodoros}
     ''';
   }
 }

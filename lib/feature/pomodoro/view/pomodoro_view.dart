@@ -9,8 +9,9 @@ import 'package:pomodoro_app/product/utility/constants/strings.dart';
 import 'package:pomodoro_app/product/utility/constants/styles.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final HomeViewModel viewModel;
 
+  const HomeView({super.key, required this.viewModel});
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -18,7 +19,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final ProjectStyles projectStyles = ProjectStyles();
   final ProjectStrings projectStrings = ProjectStrings();
-  final _pomodoroViewmodel = HomeViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +31,8 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           AllIconButtons.filled(
             onPressed: () {
-              _pomodoroViewmodel.timerStop();
-              _pomodoroViewmodel.resetTimer();
+              widget.viewModel.timerStop();
+              widget.viewModel.resetTimer();
             },
             icon: const Icon(Icons.refresh_rounded),
           )
@@ -39,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const SizedBox(
               height: 20,
@@ -46,7 +48,39 @@ class _HomeViewState extends State<HomeView> {
             _focusText(),
             _timer(),
             _minuteSelector(),
-            _playPauseButton()
+            _playPauseButton(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      "${widget.viewModel.count}/4",
+                      style: projectStyles.headerStyle,
+                    ),
+                    Text(
+                      "Counter",
+                      style: projectStyles.headerStyle,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "${widget.viewModel.pomodoros}",
+                      style: projectStyles.headerStyle,
+                    ),
+                    Text(
+                      "Pomodoros",
+                      style: projectStyles.headerStyle,
+                    ),
+                  ],
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -66,11 +100,11 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TimerBox(
-            data: _pomodoroViewmodel.selectedMinutes,
+            data: widget.viewModel.selectedMinutes,
           ),
           const TimerDots(),
           TimerBox(
-            data: _pomodoroViewmodel.selectedSeconds,
+            data: widget.viewModel.selectedSeconds,
           ),
         ],
       );
@@ -88,9 +122,9 @@ class _HomeViewState extends State<HomeView> {
             return Observer(
               builder: (context) => TimeSelectBox(
                 index: index,
-                minutesText: _pomodoroViewmodel.calculateMinutes(index),
-                onTap: () => _pomodoroViewmodel.boxIsSelected(index),
-                isSelected: _pomodoroViewmodel.selectedIndex == index,
+                minutesText: widget.viewModel.calculateMinutes(index),
+                onTap: () => widget.viewModel.boxIsSelected(index),
+                isSelected: widget.viewModel.selectedIndex == index,
               ),
             );
           },
@@ -103,13 +137,13 @@ class _HomeViewState extends State<HomeView> {
     return Observer(builder: (_) {
       return AllIconButtons.filled(
           onPressed: () {
-            if (_pomodoroViewmodel.isRunning) {
-              _pomodoroViewmodel.timerStop();
+            if (widget.viewModel.isRunning) {
+              widget.viewModel.timerStop();
             } else {
-              _pomodoroViewmodel.timerStart();
+              widget.viewModel.timerStart();
             }
           },
-          icon: _pomodoroViewmodel.isRunning
+          icon: widget.viewModel.isRunning
               ? const Icon(
                   Icons.pause_circle_filled_sharp,
                   size: 74,
