@@ -38,6 +38,7 @@ dependencies:
   #State
   mobx: ^2.3.3+2
   flutter_mobx: ^2.2.1+1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

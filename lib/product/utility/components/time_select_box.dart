@@ -7,7 +7,8 @@ class TimeSelectBox extends StatelessWidget {
       {super.key,
       this.isSelected = false,
       required this.onTap,
-      required this.minutesText, required this.index});
+      required this.minutesText,
+      required this.index});
   final bool isSelected;
   final void Function()? onTap;
   final int minutesText;
@@ -25,7 +26,7 @@ class TimeSelectBox extends StatelessWidget {
             border: Border.all(color: projectColors.white),
             color: isSelected
                 ? projectColors.white
-                : ProjectColors.backgroundColor,
+                : Theme.of(context).scaffoldBackgroundColor,
           ),
           child: Center(
               child: Text(minutesText.toString(),
@@ -33,7 +34,7 @@ class TimeSelectBox extends StatelessWidget {
                       ? TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
-                          color: ProjectColors.backgroundColor)
+                          color: Theme.of(context).scaffoldBackgroundColor)
                       : TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,

@@ -32,7 +32,7 @@ class _TimerBoxState extends State<TimerBox> {
           child: Center(
             child: Text(widget.data.toString(),
                 style: TextStyle(
-                    color: ProjectColors.backgroundColor,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     fontSize: 72,
                     fontWeight: FontWeight.w700)),
           )),
