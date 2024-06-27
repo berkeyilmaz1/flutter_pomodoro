@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro_app/product/utility/constants/paddings.dart';
 import 'package:pomodoro_app/product/utility/constants/project_colors.dart';
 
-class TimeSelectBox extends StatelessWidget {
+class TimeSelectBox extends StatefulWidget {
   const TimeSelectBox(
       {super.key,
       this.isSelected = false,
@@ -13,24 +13,32 @@ class TimeSelectBox extends StatelessWidget {
   final void Function()? onTap;
   final int minutesText;
   final int index;
+
+  @override
+  State<TimeSelectBox> createState() => _TimeSelectBoxState();
+}
+
+class _TimeSelectBoxState extends State<TimeSelectBox> {
+ 
+
   @override
   Widget build(BuildContext context) {
     final ProjectColors projectColors = ProjectColors();
     return Padding(
       padding: const ProjectPaddings.allSmall(),
       child: GestureDetector(
-        onTap: onTap,
+        onTap:  widget.onTap ,
         child: Container(
           width: 55,
           decoration: BoxDecoration(
             border: Border.all(color: projectColors.white),
-            color: isSelected
+            color: widget.isSelected
                 ? projectColors.white
                 : Theme.of(context).scaffoldBackgroundColor,
           ),
           child: Center(
-              child: Text(minutesText.toString(),
-                  style: isSelected
+              child: Text(widget.minutesText.toString(),
+                  style: widget.isSelected
                       ? TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w700,

@@ -30,13 +30,15 @@ class _HomeViewState extends State<HomeView> {
           style: projectStyles.headerStyle,
         ),
         actions: [
-          AllIconButtons.filled(
-            onPressed: () {
-              widget.viewModel.timerStop();
-              widget.viewModel.resetTimer();
-            },
-            icon: const Icon(Icons.refresh_rounded),
-          )
+          widget.viewModel.themeChanger.themeData == redMode
+              ? AllIconButtons.filled(
+                  onPressed: () {
+                    widget.viewModel.timerStop();
+                    widget.viewModel.resetTimer();
+                  },
+                  icon: const Icon(Icons.refresh_rounded),
+                )
+              : const SizedBox.shrink()
         ],
       ),
       body: Center(
@@ -118,20 +120,22 @@ class _HomeViewState extends State<HomeView> {
     return SizedBox(
       height: 50,
       child: Expanded(
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 12,
-          itemBuilder: (BuildContext context, int index) {
-            return Observer(
-              builder: (context) => TimeSelectBox(
-                index: index,
-                minutesText: widget.viewModel.calculateMinutes(index),
-                onTap: () => widget.viewModel.boxIsSelected(index),
-                isSelected: widget.viewModel.selectedIndex == index,
-              ),
-            );
-          },
-        ),
+        child: widget.viewModel.themeChanger.themeData == redMode
+            ? ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 12,
+                itemBuilder: (BuildContext context, int index) {
+                  return Observer(
+                    builder: (context) => TimeSelectBox(
+                      index: index,
+                      minutesText: widget.viewModel.calculateMinutes(index),
+                      onTap: () => widget.viewModel.boxIsSelected(index),
+                      isSelected: widget.viewModel.selectedIndex == index,
+                    ),
+                  );
+                },
+              )
+            : const SizedBox.shrink(),
       ),
     );
   }
