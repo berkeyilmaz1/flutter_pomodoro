@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:pomodoro_app/feature/pomodoro/viewmodel/pomodoro_viewmodel.dart';
+import 'package:pomodoro_app/product/theme/theme.dart';
 import 'package:pomodoro_app/product/utility/components/time_select_box.dart';
 import 'package:pomodoro_app/product/utility/components/timer_box.dart';
 import 'package:pomodoro_app/product/utility/components/timer_dots.dart';
@@ -89,7 +90,9 @@ class _HomeViewState extends State<HomeView> {
 
   Text _focusText() {
     return Text(
-      "Focus",
+      (widget.viewModel.themeChanger.themeData == redMode)
+          ? "Focus"
+          : "Break Time",
       style: projectStyles.headerStyle,
     );
   }
