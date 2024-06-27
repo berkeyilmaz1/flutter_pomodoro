@@ -18,9 +18,9 @@ abstract class _HomeViewModelBase with Store {
   @observable
   int selectedIndex = 4;
   @observable
-  int selectedMinutes = 0;
+  int selectedMinutes = 25;
   @observable
-  int selectedSeconds = 3;
+  int selectedSeconds = 0;
 
   @observable
   int count = 0;
